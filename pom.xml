@@ -1,29 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>in.aseemcloud</groupId>
-  <artifactId>01-maven-web-app</artifactId>
-  <packaging>war</packaging>
-  <version>3.0-RELEASE</version>
-  <name>01-maven-cloudaseem-app</name>
-  <url>http://maven.apache.org</url>
- 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-    </dependency>
-   
-  </dependencies>
-  <build>
-    <finalName>maven-cloudaseem-app</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.1</version>
-      </plugin>
-    </plugins>
-  </build>
-</project>
+pipeline {
+    agent any
+    
+    tools{
+        maven "Maven3"
+    }
+       
+    stages {
+        stage('Git Checkout-github') {
+            steps {
+             git branch: 'main', url: 'https://github.com/Aseemakram19/maven-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+               sh 'mvn clean package'
+            }
+        }
+        stage('Create a image') {
+            steps {
+               sh 'docker build -t aseem1 .'
+            }
+        }
+        stage('Docker Container app') {
+            steps {
+               sh 'docker run -d -p 9000:8080 -t aseem1'
+            }
+        }
+    }
+}

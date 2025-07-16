@@ -2,13 +2,13 @@ pipeline {
     agent any
     
     tools{
-        maven "Maven3"
+        maven "maven1"
     }
        
     stages {
         stage('Git Checkout-github') {
             steps {
-             git branch: 'main', url: 'https://github.com/Aseemakram19/maven-app.git'
+             git branch: 'master', url: 'https://github.com/shrutinasre/maven-cicd-app.git'
             }
         }
         stage('Build') {
@@ -18,12 +18,12 @@ pipeline {
         }
         stage('Create a image') {
             steps {
-               sh 'docker build -t aseem1 .'
+               sh 'docker build -t mavencicd1 .'
             }
         }
         stage('Docker Container app') {
             steps {
-               sh 'docker run -d -p 9000:8080 -t aseem1'
+               sh 'docker run -d -p 9000:8080 -t mavencicd1'
             }
         }
     }
