@@ -4,7 +4,7 @@
 # Update the package list
 sudo apt-get update -y
 
-# Install Docker
+# Installing Docker
 sudo apt-get install docker.io -y
 
 # Add the 'ubuntu' and 'jenkins' users to the 'docker' group to allow running Docker without sudo
